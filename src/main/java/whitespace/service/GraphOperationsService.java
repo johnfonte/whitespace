@@ -50,9 +50,19 @@ public class GraphOperationsService
 
 			for (String potentialCity : potentialCities)
 			{
+				if (potentialCity.length() != 3) {
+					continue;
+				}
+				int cost;
+				try {
+					Character costChar = potentialCity.charAt(2);
+					cost = Integer.parseInt(String.valueOf(costChar));
+				} catch (Exception e) {
+					System.out.println("Exception formatting cost as integer");
+					continue;
+				}
 				Character c1 = potentialCity.charAt(0);
 				Character c2 = potentialCity.charAt(1);
-				Integer cost = Integer.parseInt(String.valueOf(potentialCity.charAt(2)));
 				Map<Character, Integer> connections = inputGraph.getOrDefault(c1, new HashMap<>());
 				connections.put(c2, cost);
 				inputGraph.put(c1, connections);
@@ -180,7 +190,7 @@ public class GraphOperationsService
 				return currentCity.getCost();
 			}
 			visited.add(currentCity.getCity());
-			for (Map.Entry<Character, Integer> edge : this.cityGraph.get(currentCity.getCity()).entrySet())
+			for (Map.Entry<Character, Integer> edge : this.cityGraph.getOrDefault(currentCity.getCity(), new HashMap<>()).entrySet())
 			{
 				if (!visited.contains(edge.getKey()))
 				{

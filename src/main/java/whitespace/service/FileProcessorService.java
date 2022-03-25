@@ -1,6 +1,5 @@
 package whitespace.service;
 
-import org.apache.commons.lang3.StringUtils;
 import whitespace.constants.FileProcessorPaths;
 
 import java.io.BufferedReader;
@@ -21,7 +20,7 @@ public class FileProcessorService
 			String line;
 			while ((line = in.readLine()) != null)
 			{
-				if (StringUtils.isBlank(line)) {
+				if (line.isBlank()) {
 					continue;
 				}
 				values.add(line.trim());

@@ -63,7 +63,8 @@ class SpeedyLoopRunnerTest
 		Set<List<Character>> expectedResults = Set.of(List.of('C', 'D', 'C'), List.of('C', 'E', 'B', 'C'));
 		Set<List<Character>> pathResults = graphOperationsService.getPaths();
 		assertEquals(expectedResults.size(), pathResults.size());
-		for (List<Character> path : expectedResults) {
+		for (List<Character> path : expectedResults)
+		{
 			assertTrue(pathResults.contains(path));
 		}
 	}
@@ -73,10 +74,12 @@ class SpeedyLoopRunnerTest
 		HashMap<Character, Map<Character, Integer>> cityGraph = getSampleCityGraphMap();
 		GraphOperationsService graphOperationsService = new GraphOperationsService(cityGraph);
 		graphOperationsService.numRoutesEqualStops('A', 'C', 4);
-		Set<List<Character>> expectedResults = Set.of(List.of('A', 'B', 'C', 'D', 'C'), List.of('A', 'D', 'C', 'D', 'C'), List.of('A', 'D', 'E', 'B', 'C'));
+		Set<List<Character>> expectedResults = Set.of(List.of('A', 'B', 'C', 'D', 'C'), List.of('A', 'D', 'C', 'D', 'C'),
+			List.of('A', 'D', 'E', 'B', 'C'));
 		Set<List<Character>> pathResults = graphOperationsService.getPaths();
 		assertEquals(expectedResults.size(), pathResults.size());
-		for (List<Character> path : expectedResults) {
+		for (List<Character> path : expectedResults)
+		{
 			assertTrue(pathResults.contains(path));
 		}
 	}
@@ -86,11 +89,13 @@ class SpeedyLoopRunnerTest
 		HashMap<Character, Map<Character, Integer>> cityGraph = getSampleCityGraphMap();
 		GraphOperationsService graphOperationsService = new GraphOperationsService(cityGraph);
 		graphOperationsService.numRoutesLessThanDistance('C', 'C', 30);
-		Set<List<Character>> expectedResults = Set.of(List.of('C', 'D', 'C'), List.of('C', 'E', 'B', 'C'), List.of('C', 'E', 'B', 'C', 'D', 'C'), List.of('C', 'D', 'C', 'E', 'B', 'C'),
-			List.of('C','D','E','B','C'), List.of('C','E','B','C','E','B','C'), List.of('C','E','B','C','E','B','C','E','B','C'));
+		Set<List<Character>> expectedResults = Set.of(List.of('C', 'D', 'C'), List.of('C', 'E', 'B', 'C'), List.of('C', 'E', 'B', 'C', 'D', 'C'),
+			List.of('C', 'D', 'C', 'E', 'B', 'C'), List.of('C', 'D', 'E', 'B', 'C'), List.of('C', 'E', 'B', 'C', 'E', 'B', 'C'),
+			List.of('C', 'E', 'B', 'C', 'E', 'B', 'C', 'E', 'B', 'C'));
 		Set<List<Character>> pathResults = graphOperationsService.getPaths();
 		assertEquals(expectedResults.size(), pathResults.size());
-		for (List<Character> path : expectedResults) {
+		for (List<Character> path : expectedResults)
+		{
 			assertTrue(pathResults.contains(path));
 		}
 	}
@@ -126,12 +131,14 @@ class SpeedyLoopRunnerTest
 		Set<List<Character>> expectedResults = Set.of(List.of('A', 'B', 'C'), List.of('A', 'D', 'C'), List.of('A', 'E', 'B', 'C'));
 		Set<List<Character>> pathResults = graphOperationsService.getPaths();
 		assertEquals(expectedResults.size(), pathResults.size());
-		for (List<Character> path : expectedResults) {
+		for (List<Character> path : expectedResults)
+		{
 			assertTrue(pathResults.contains(path));
 		}
 	}
 
-	public HashMap<Character, Map<Character, Integer>> getSampleCityGraphMap() {
+	public HashMap<Character, Map<Character, Integer>> getSampleCityGraphMap()
+	{
 		HashMap<Character, Map<Character, Integer>> cityGraph = new HashMap<>();
 		Map<Character, Integer> aGraph = new HashMap<>();
 		cityGraph.put('A', aGraph);
@@ -158,5 +165,26 @@ class SpeedyLoopRunnerTest
 		eGraph.put('B', 3);
 
 		return cityGraph;
+	}
+
+	@Test public void testIncorrectFormat()
+	{
+		GraphOperationsService graphOperationsService = new GraphOperationsService("testSpeedyLoopIncorrectFormat.txt", true);
+		SpeedyLoopRunner.generateTestOutput(graphOperationsService);
+		Map<Integer, Integer> testOutputValues = new HashMap<>();
+		testOutputValues.put(1, -1);
+		testOutputValues.put(2, -1);
+		testOutputValues.put(3, -1);
+		testOutputValues.put(4, -1);
+		testOutputValues.put(5, -1);
+		testOutputValues.put(6, 0);
+		testOutputValues.put(7, 0);
+		testOutputValues.put(8, -1);
+		testOutputValues.put(9, -1);
+		testOutputValues.put(10, 0);
+		for (int i = 1;i <= 10;i++)
+		{
+			assertEquals(testOutputValues.get(i), graphOperationsService.getOutputResults().get(i));
+		}
 	}
 }
