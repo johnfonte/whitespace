@@ -187,4 +187,30 @@ class SpeedyLoopRunnerTest
 			assertEquals(testOutputValues.get(i), graphOperationsService.getOutputResults().get(i));
 		}
 	}
+
+	@Test public void testUnusualDirectedGraph()
+	{
+		HashMap<Character, Map<Character, Integer>> cityGraph = new HashMap<>();
+		Map<Character, Integer> aGraph = new HashMap<>();
+		cityGraph.put('A', aGraph);
+		aGraph.put('B', 10);
+		aGraph.put('C', 1);
+
+		Map<Character, Integer> cGraph = new HashMap<>();
+		cityGraph.put('C', cGraph);
+		cGraph.put('D', 1);
+
+		Map<Character, Integer> dGraph = new HashMap<>();
+		cityGraph.put('D', dGraph);
+		dGraph.put('E', 1);
+
+		Map<Character, Integer> eGraph = new HashMap<>();
+		cityGraph.put('E', eGraph);
+		eGraph.put('B', 1);
+
+		GraphOperationsService graphOperationsService = new GraphOperationsService(cityGraph);
+		graphOperationsService.shortestRouteDistance('A', 'B');
+		int routeLength = graphOperationsService.getRouteLength();
+		assertEquals(4, routeLength);
+	}
 }
